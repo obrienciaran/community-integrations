@@ -26,8 +26,7 @@ def capture_loguru_logs(level: str | int = 0) -> int:
     This adds a Loguru sink that re-emits each Loguru record through the logger
     returned by ``dagster.get_dagster_logger()``, which Dagster always manages during
     a run, so no configuration is required. Call this function once at code location
-    load time
-    (e.g. in the module defining your ``Definitions``):
+    load time (e.g. in the module defining your ``Definitions``):
 
     .. code-block:: python
 
