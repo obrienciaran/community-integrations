@@ -45,8 +45,10 @@ def capture_loguru_logs(level: str | int = 0) -> int:
         defs = Definitions(assets=[my_asset])
 
     Loguru's ``SUCCESS`` and ``TRACE`` levels are mapped to ``INFO`` and ``DEBUG``
-    respectively, and exceptions are forwarded with their tracebacks. Existing Loguru
-    sinks (such as its default stderr sink) are left untouched.
+    respectively. Exception information (``exc_info``) is forwarded, so tracebacks
+    are rendered wherever Dagster renders them for standard logging, such as the
+    console output and the run's stdout/stderr capture. Existing Loguru sinks (such
+    as its default stderr sink) are left untouched.
 
     Args:
         level (Union[str, int]): Minimum Loguru level to forward. Defaults to 0
