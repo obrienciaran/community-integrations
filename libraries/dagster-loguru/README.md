@@ -35,8 +35,10 @@ defs = Definitions(assets=[my_asset])
 ```
 
 Loguru's `SUCCESS` and `TRACE` levels are mapped to `INFO` and `DEBUG` respectively.
-Exceptions logged with `logger.exception()` are forwarded with their tracebacks. The
-returned sink id can be passed to `loguru.logger.remove()` to stop forwarding.
+For `logger.exception()` calls, the exception information (`exc_info`) is forwarded,
+so tracebacks are rendered wherever Dagster renders them for standard logging, such
+as the console output and the run's stdout/stderr capture. The returned sink id can
+be passed to `loguru.logger.remove()` to stop forwarding.
 
 ## Test
 
