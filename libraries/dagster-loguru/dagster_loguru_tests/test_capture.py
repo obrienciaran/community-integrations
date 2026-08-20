@@ -16,8 +16,8 @@ def loguru_capture():
         logger.remove(sink_id)
 
 
-def get_log_records(assets, instance_overrides=None):
-    with dg.instance_for_test(overrides=instance_overrides) as instance:
+def get_log_records(assets):
+    with dg.instance_for_test() as instance:
         result = dg.materialize(assets, instance=instance)
         assert result.success
         event_records = instance.event_log_storage.get_logs_for_run(result.run_id)
@@ -69,50 +69,6 @@ def test_loguru_exception_captured(loguru_capture):
     ]
     assert len(records) == 1
     assert records[0].level == logging.ERROR
-
-
-def test_custom_python_logger_with_managed_loggers():
-    custom_logger = logging.getLogger("my_loguru_bridge")
-    custom_logger.setLevel(logging.DEBUG)
-    sink_id = capture_loguru_logs(python_logger=custom_logger)
-
-    @dg.asset
-    def my_asset():
-        logger.warning("custom logger name")
-
-    try:
-        records = [
-            lr
-            for lr in get_log_records(
-                [my_asset],
-                {"python_logs": {"managed_python_loggers": ["my_loguru_bridge"]}},
-            )
-            if lr.user_message == "custom logger name"
-        ]
-    finally:
-        logger.remove(sink_id)
-    assert len(records) == 1
-    assert records[0].level == logging.WARNING
-
-
-def test_unmanaged_custom_logger_not_captured():
-    custom_logger = logging.getLogger("unmanaged_bridge")
-    custom_logger.setLevel(logging.DEBUG)
-    sink_id = capture_loguru_logs(python_logger=custom_logger)
-
-    @dg.asset
-    def my_asset():
-        logger.info("should not be captured")
-
-    try:
-        records = [
-            lr
-            for lr in get_log_records([my_asset])
-            if lr.user_message == "should not be captured"
-        ]
-    finally:
-        logger.remove(sink_id)
-    assert len(records) == 0
 
 
 def test_sink_removal_stops_forwarding():

@@ -38,15 +38,6 @@ Loguru's `SUCCESS` and `TRACE` levels are mapped to `INFO` and `DEBUG` respectiv
 Exceptions logged with `logger.exception()` are forwarded with their tracebacks. The
 returned sink id can be passed to `loguru.logger.remove()` to stop forwarding.
 
-To forward to a different standard Python logger instead, pass it explicitly and list
-its name under `python_logs.managed_python_loggers` in your `dagster.yaml`:
-
-```python
-import logging
-
-capture_loguru_logs(python_logger=logging.getLogger("my_logger"))
-```
-
 ## Test
 
 ```sh
