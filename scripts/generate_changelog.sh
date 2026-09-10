@@ -8,7 +8,7 @@
 # out, and `[dagster-foo] ` subject prefixes are stripped since the library is
 # implied by the file the entry lives in.
 #
-# Release tags live on GitHub, so fetch them first:
+# Release tags live on GitHub, so fetch them first.
 #
 #     git fetch origin --tags
 #
@@ -40,8 +40,8 @@ fi
 # lives. Their early releases are tagged under the old prefix and their early
 # commits touched the old directory, so both have to be searched or those
 # releases come back empty. The map is deliberately hardcoded rather than
-# derived from `git log --diff-filter=R`: dagster-qdrant is also a rename (of
-# `_template`), and following that would pull unrelated template history in.
+# derived from `git log --diff-filter=R`. dagster-qdrant is also a rename of
+# `_template`, and following that would pull unrelated template history in.
 case "$PACKAGE" in
   dagster-anthropic)  legacy="dagster-contrib-anthropic" ;;
   dagster-chroma)     legacy="dagster-contrib-chroma" ;;
@@ -60,7 +60,7 @@ if [ -n "$legacy" ]; then
   tag_globs+=("refs/tags/${legacy//-/_}-*")
 fi
 
-# Releases ordered by tag date, not by version number: dagster-notdiamond went
+# Releases ordered by tag date, not by version number. dagster-notdiamond went
 # 0.1.2 -> 0.1.3 -> 0.0.3 -> 0.0.4 -> 0.0.5 (see issue #340), so sorting by
 # version would compute every commit range against the wrong predecessor.
 # Where the same version appears under both the old and new prefix it is the

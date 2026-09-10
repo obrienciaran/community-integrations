@@ -84,12 +84,12 @@ if ! grep -q "__version__ = \"${VERSION}\"" "${version_file}"; then
 fi
 
 # Keep the library's CHANGELOG in step with the release, so the two can't drift
-# apart. Handles three cases:
-#   - "## [Unreleased]" exists: promote it to this version, dated today, and
-#     start a fresh empty [Unreleased] section above it.
-#   - No CHANGELOG at all: create one, and warn.
-#   - CHANGELOG without an [Unreleased] section: add a dated heading for this
-#     version, and warn.
+# apart. It handles three cases.
+#   - When "## [Unreleased]" exists, promote it to this version, dated today,
+#     and start a fresh empty [Unreleased] section above it.
+#   - When there is no CHANGELOG at all, create one and warn.
+#   - When the CHANGELOG has no [Unreleased] section, add a dated heading for
+#     this version and warn.
 # If the changelog already has an entry for this version, the file is left
 # untouched, so running the same release twice changes nothing.
 changelog_file="libraries/${PACKAGE}/CHANGELOG.md"
